@@ -1,0 +1,26 @@
+=encoding utf-8
+
+=head1 NAME
+
+CI - Blah blah blah
+
+=head1 SYNOPSIS
+
+  use CI;
+
+=head1 DESCRIPTION
+
+CI is
+
+=head1 AUTHOR
+
+Shoichi Kaji <skaji@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2019 Shoichi Kaji <skaji@cpan.org>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
