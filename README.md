@@ -16,6 +16,7 @@ CI - Get details about the current CI environment
 # DESCRIPTION
 
 This module provides details about the current CI environment.
+This is a perl port of [https://github.com/watson/ci-info](https://github.com/watson/ci-info).
 
 # FUNCTIONS
 
@@ -87,3 +88,6 @@ Shoichi Kaji <skaji@cpan.org>
 Copyright 2019 Shoichi Kaji <skaji@cpan.org>
 
 The MIT License (MIT)
+
+Note that the actual CI information comes from [https://github.com/watson/ci-info](https://github.com/watson/ci-info),
+whose license is MIT.

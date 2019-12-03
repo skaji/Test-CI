@@ -218,6 +218,7 @@ CI - Get details about the current CI environment
 =head1 DESCRIPTION
 
 This module provides details about the current CI environment.
+This is a perl port of L<https://github.com/watson/ci-info>.
 
 =head1 FUNCTIONS
 
@@ -289,5 +290,8 @@ Shoichi Kaji <skaji@cpan.org>
 Copyright 2019 Shoichi Kaji <skaji@cpan.org>
 
 The MIT License (MIT)
+
+Note that the actual CI information comes from L<https://github.com/watson/ci-info>,
+whose license is MIT.
 
 =cut
