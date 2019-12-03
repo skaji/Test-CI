@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/skaji/CI/workflows/linux/badge.svg)](https://github.com/skaji/CI/actions)
+
 # NAME
 
 CI - Get details about the current CI environment
