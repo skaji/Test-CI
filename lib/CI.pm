@@ -242,7 +242,7 @@ Will be true if a PR is being tested, otherwise false. If PR detection is not su
 
 =head2 VENDOR-CONSTANT
 
-Returns C<1/0> that represents vendor.
+Returns C<1/0>.
 Will be C<1> if the code is determined to run on the given CI server, otherwise C<0>.
 
 Examples of vendor constants are C<TRAVIS> or C<APPVEYOR>. For a complete list, see the support table below.

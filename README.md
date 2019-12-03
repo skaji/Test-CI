@@ -40,7 +40,7 @@ Will be true if a PR is being tested, otherwise false. If PR detection is not su
 
 ## VENDOR-CONSTANT
 
-Returns `1/0` that represents vendor.
+Returns `1/0`.
 Will be `1` if the code is determined to run on the given CI server, otherwise `0`.
 
 Examples of vendor constants are `TRAVIS` or `APPVEYOR`. For a complete list, see the support table below.
