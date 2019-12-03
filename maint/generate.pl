@@ -49,16 +49,21 @@ sub is_pr_condition {
         } elsif (exists $value->{any}) {
             join ' || ', map { "exists \$ENV{$_}" } @{$value->{any}};
         } else {
-            is_condition $value;
+            join ' && ', is_condition $value;
         }
     } elsif ($ref eq '' && !defined $value) {
-        "0";
+        undef;
     } else {
         "exists \$ENV{$value}";
     }
 }
 
 my $vendors = JSON::XS->new->utf8->decode( path("vendors.json")->slurp );
+if (-f "custom-vendors.json") {
+    my $custom = JSON::XS->new->utf8->decode( path("custom-vendors.json")->slurp );
+    push @$vendors, @$custom;
+    @$vendors = sort { $a->{constant} cmp $b->{constant} } @$vendors;
+}
 
 open my $FH, ">", "../lib/CI.pm.tmp" or die;
 select $FH;
@@ -90,12 +95,12 @@ my $constant2 = join "\n", map { $_->{constant} } @$vendors;
 $constant2 =~ s/^/        /msg;
 print $constant2, "\n    )],\n);\n\n";
 
-print "use constant _CI => exists \$ENV{CI} || exists \$ENV{CONTINUOUS_INTEGRATION} || exists \$ENV{RUN_ID};\n";
+print "use constant _CI => exists \$ENV{CI} || exists \$ENV{CONTINUOUS_INTEGRATION} || exists \$ENV{RUN_ID} ? 1 : 0;\n";
 for my $vendor (@$vendors) {
     my $constant = $vendor->{constant};
     my @condition = is_condition $vendor->{env};
 
-    print "use constant $constant => " . ( join ' && ', @condition ) . ";\n"
+    print "use constant $constant => " . ( join ' && ', @condition ) . " ? 1 : 0;\n"
 }
 
 print "\n";
@@ -106,22 +111,21 @@ print $is_ci, "\n}\n";
 
 print "\n";
 print "sub name () {\n";
-my $name = join "\n: ", map { "$_ ? '$_'" } map { $_->{constant} } @$vendors;
+my $name = join "\n: ", map { "$_->{constant} ? '$_->{name}'" } @$vendors;
 $name =~ s/^/    /msg;
 print $name, "\n    : undef\n}\n";
 
-my @is_pr;
-for my $vendor (@$vendors) {
-    my $constant = $vendor->{constant};
-    my $is_pr_condition = is_pr_condition $vendor->{pr};
-    push @is_pr, "$constant && $is_pr_condition";
-}
 
 print "\n";
 print "sub is_pr () {\n";
-my $is_pr = join "\n|| ", map { "( $_ )" } @is_pr;
-$is_pr =~ s/^/    /msg;
-print $is_pr, "\n}\n";
+for my $vendor (@$vendors) {
+    my $constant = $vendor->{constant};
+    my $is_pr_condition = is_pr_condition $vendor->{pr};
+    next if !$is_pr_condition;
+    print "    return $is_pr_condition ? 1 : 0 if $constant;\n";
+}
+print "    return undef;\n";
+print "}\n";
 
 print "\n1;\n__END__\n\n";
 print path("main.pod")->slurp;

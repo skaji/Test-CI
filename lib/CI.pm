@@ -24,6 +24,7 @@ our @EXPORT_OK = qw(
     CODESHIP
     DRONE
     DSARI
+    GITHUB_ACTIONS
     GITLAB
     GOCD
     HUDSON
@@ -56,6 +57,7 @@ our %EXPORT_TAGS = (
         CODESHIP
         DRONE
         DSARI
+        GITHUB_ACTIONS
         GITLAB
         GOCD
         HUDSON
@@ -74,35 +76,36 @@ our %EXPORT_TAGS = (
     )],
 );
 
-use constant _CI => exists $ENV{CI} || exists $ENV{CONTINUOUS_INTEGRATION} || exists $ENV{RUN_ID};
-use constant APPVEYOR => exists $ENV{APPVEYOR};
-use constant AZURE_PIPELINES => exists $ENV{SYSTEM_TEAMFOUNDATIONCOLLECTIONURI};
-use constant BAMBOO => exists $ENV{bamboo_planKey};
-use constant BITBUCKET => exists $ENV{BITBUCKET_COMMIT};
-use constant BITRISE => exists $ENV{BITRISE_IO};
-use constant BUDDY => exists $ENV{BUDDY_WORKSPACE_ID};
-use constant BUILDKITE => exists $ENV{BUILDKITE};
-use constant CIRCLE => exists $ENV{CIRCLECI};
-use constant CIRRUS => exists $ENV{CIRRUS_CI};
-use constant CODEBUILD => exists $ENV{CODEBUILD_BUILD_ARN};
-use constant CODESHIP => exists $ENV{CI_NAME} && $ENV{CI_NAME} eq 'codeship';
-use constant DRONE => exists $ENV{DRONE};
-use constant DSARI => exists $ENV{DSARI};
-use constant GITLAB => exists $ENV{GITLAB_CI};
-use constant GOCD => exists $ENV{GO_PIPELINE_LABEL};
-use constant HUDSON => exists $ENV{HUDSON_URL};
-use constant JENKINS => exists $ENV{JENKINS_URL} && exists $ENV{BUILD_ID};
-use constant MAGNUM => exists $ENV{MAGNUM};
-use constant NETLIFY => exists $ENV{NETLIFY_BUILD_BASE};
-use constant NEVERCODE => exists $ENV{NEVERCODE};
-use constant SAIL => exists $ENV{SAILCI};
-use constant SEMAPHORE => exists $ENV{SEMAPHORE};
-use constant SHIPPABLE => exists $ENV{SHIPPABLE};
-use constant SOLANO => exists $ENV{TDDIUM};
-use constant STRIDER => exists $ENV{STRIDER};
-use constant TASKCLUSTER => exists $ENV{TASK_ID} && exists $ENV{RUN_ID};
-use constant TEAMCITY => exists $ENV{TEAMCITY_VERSION};
-use constant TRAVIS => exists $ENV{TRAVIS};
+use constant _CI => exists $ENV{CI} || exists $ENV{CONTINUOUS_INTEGRATION} || exists $ENV{RUN_ID} ? 1 : 0;
+use constant APPVEYOR => exists $ENV{APPVEYOR} ? 1 : 0;
+use constant AZURE_PIPELINES => exists $ENV{SYSTEM_TEAMFOUNDATIONCOLLECTIONURI} ? 1 : 0;
+use constant BAMBOO => exists $ENV{bamboo_planKey} ? 1 : 0;
+use constant BITBUCKET => exists $ENV{BITBUCKET_COMMIT} ? 1 : 0;
+use constant BITRISE => exists $ENV{BITRISE_IO} ? 1 : 0;
+use constant BUDDY => exists $ENV{BUDDY_WORKSPACE_ID} ? 1 : 0;
+use constant BUILDKITE => exists $ENV{BUILDKITE} ? 1 : 0;
+use constant CIRCLE => exists $ENV{CIRCLECI} ? 1 : 0;
+use constant CIRRUS => exists $ENV{CIRRUS_CI} ? 1 : 0;
+use constant CODEBUILD => exists $ENV{CODEBUILD_BUILD_ARN} ? 1 : 0;
+use constant CODESHIP => exists $ENV{CI_NAME} && $ENV{CI_NAME} eq 'codeship' ? 1 : 0;
+use constant DRONE => exists $ENV{DRONE} ? 1 : 0;
+use constant DSARI => exists $ENV{DSARI} ? 1 : 0;
+use constant GITHUB_ACTIONS => exists $ENV{GITHUB_ACTIONS} ? 1 : 0;
+use constant GITLAB => exists $ENV{GITLAB_CI} ? 1 : 0;
+use constant GOCD => exists $ENV{GO_PIPELINE_LABEL} ? 1 : 0;
+use constant HUDSON => exists $ENV{HUDSON_URL} ? 1 : 0;
+use constant JENKINS => exists $ENV{JENKINS_URL} && exists $ENV{BUILD_ID} ? 1 : 0;
+use constant MAGNUM => exists $ENV{MAGNUM} ? 1 : 0;
+use constant NETLIFY => exists $ENV{NETLIFY_BUILD_BASE} ? 1 : 0;
+use constant NEVERCODE => exists $ENV{NEVERCODE} ? 1 : 0;
+use constant SAIL => exists $ENV{SAILCI} ? 1 : 0;
+use constant SEMAPHORE => exists $ENV{SEMAPHORE} ? 1 : 0;
+use constant SHIPPABLE => exists $ENV{SHIPPABLE} ? 1 : 0;
+use constant SOLANO => exists $ENV{TDDIUM} ? 1 : 0;
+use constant STRIDER => exists $ENV{STRIDER} ? 1 : 0;
+use constant TASKCLUSTER => exists $ENV{TASK_ID} && exists $ENV{RUN_ID} ? 1 : 0;
+use constant TEAMCITY => exists $ENV{TEAMCITY_VERSION} ? 1 : 0;
+use constant TRAVIS => exists $ENV{TRAVIS} ? 1 : 0;
 
 sub is_ci () {
     _CI
@@ -119,6 +122,7 @@ sub is_ci () {
     || CODESHIP
     || DRONE
     || DSARI
+    || GITHUB_ACTIONS
     || GITLAB
     || GOCD
     || HUDSON
@@ -137,66 +141,58 @@ sub is_ci () {
 }
 
 sub name () {
-    APPVEYOR ? 'APPVEYOR'
-    : AZURE_PIPELINES ? 'AZURE_PIPELINES'
-    : BAMBOO ? 'BAMBOO'
-    : BITBUCKET ? 'BITBUCKET'
-    : BITRISE ? 'BITRISE'
-    : BUDDY ? 'BUDDY'
-    : BUILDKITE ? 'BUILDKITE'
-    : CIRCLE ? 'CIRCLE'
-    : CIRRUS ? 'CIRRUS'
-    : CODEBUILD ? 'CODEBUILD'
-    : CODESHIP ? 'CODESHIP'
-    : DRONE ? 'DRONE'
-    : DSARI ? 'DSARI'
-    : GITLAB ? 'GITLAB'
-    : GOCD ? 'GOCD'
-    : HUDSON ? 'HUDSON'
-    : JENKINS ? 'JENKINS'
-    : MAGNUM ? 'MAGNUM'
-    : NETLIFY ? 'NETLIFY'
-    : NEVERCODE ? 'NEVERCODE'
-    : SAIL ? 'SAIL'
-    : SEMAPHORE ? 'SEMAPHORE'
-    : SHIPPABLE ? 'SHIPPABLE'
-    : SOLANO ? 'SOLANO'
-    : STRIDER ? 'STRIDER'
-    : TASKCLUSTER ? 'TASKCLUSTER'
-    : TEAMCITY ? 'TEAMCITY'
-    : TRAVIS ? 'TRAVIS'
+    APPVEYOR ? 'AppVeyor'
+    : AZURE_PIPELINES ? 'Azure Pipelines'
+    : BAMBOO ? 'Bamboo'
+    : BITBUCKET ? 'Bitbucket Pipelines'
+    : BITRISE ? 'Bitrise'
+    : BUDDY ? 'Buddy'
+    : BUILDKITE ? 'Buildkite'
+    : CIRCLE ? 'CircleCI'
+    : CIRRUS ? 'Cirrus CI'
+    : CODEBUILD ? 'AWS CodeBuild'
+    : CODESHIP ? 'Codeship'
+    : DRONE ? 'Drone'
+    : DSARI ? 'dsari'
+    : GITHUB_ACTIONS ? 'GitHub Actions'
+    : GITLAB ? 'GitLab CI'
+    : GOCD ? 'GoCD'
+    : HUDSON ? 'Hudson'
+    : JENKINS ? 'Jenkins'
+    : MAGNUM ? 'Magnum CI'
+    : NETLIFY ? 'Netlify CI'
+    : NEVERCODE ? 'Nevercode'
+    : SAIL ? 'Sail CI'
+    : SEMAPHORE ? 'Semaphore'
+    : SHIPPABLE ? 'Shippable'
+    : SOLANO ? 'Solano CI'
+    : STRIDER ? 'Strider CD'
+    : TASKCLUSTER ? 'TaskCluster'
+    : TEAMCITY ? 'TeamCity'
+    : TRAVIS ? 'Travis CI'
     : undef
 }
 
 sub is_pr () {
-    ( APPVEYOR && exists $ENV{APPVEYOR_PULL_REQUEST_NUMBER} )
-    || ( AZURE_PIPELINES && exists $ENV{SYSTEM_PULLREQUEST_PULLREQUESTID} )
-    || ( BAMBOO && 0 )
-    || ( BITBUCKET && exists $ENV{BITBUCKET_PR_ID} )
-    || ( BITRISE && exists $ENV{BITRISE_PULL_REQUEST} )
-    || ( BUDDY && exists $ENV{BUDDY_EXECUTION_PULL_REQUEST_ID} )
-    || ( BUILDKITE && exists $ENV{BUILDKITE_PULL_REQUEST} && $ENV{BUILDKITE_PULL_REQUEST} ne 'false' )
-    || ( CIRCLE && exists $ENV{CIRCLE_PULL_REQUEST} )
-    || ( CIRRUS && exists $ENV{CIRRUS_PR} )
-    || ( CODEBUILD && 0 )
-    || ( CODESHIP && 0 )
-    || ( DRONE && 1 )
-    || ( DSARI && 0 )
-    || ( GITLAB && 0 )
-    || ( GOCD && 0 )
-    || ( HUDSON && 0 )
-    || ( JENKINS && exists $ENV{ghprbPullId} || exists $ENV{CHANGE_ID} )
-    || ( MAGNUM && 0 )
-    || ( NETLIFY && exists $ENV{PULL_REQUEST} && $ENV{PULL_REQUEST} ne 'false' )
-    || ( NEVERCODE && exists $ENV{NEVERCODE_PULL_REQUEST} && $ENV{NEVERCODE_PULL_REQUEST} ne 'false' )
-    || ( SAIL && exists $ENV{SAIL_PULL_REQUEST_NUMBER} )
-    || ( SEMAPHORE && exists $ENV{PULL_REQUEST_NUMBER} )
-    || ( SHIPPABLE && 1 )
-    || ( SOLANO && exists $ENV{TDDIUM_PR_ID} )
-    || ( STRIDER && 0 )
-    || ( TASKCLUSTER && 0 )
-    || ( TEAMCITY && 0 )
-    || ( TRAVIS && exists $ENV{TRAVIS_PULL_REQUEST} && $ENV{TRAVIS_PULL_REQUEST} ne 'false' )
+    return exists $ENV{APPVEYOR_PULL_REQUEST_NUMBER} ? 1 : 0 if APPVEYOR;
+    return exists $ENV{SYSTEM_PULLREQUEST_PULLREQUESTID} ? 1 : 0 if AZURE_PIPELINES;
+    return exists $ENV{BITBUCKET_PR_ID} ? 1 : 0 if BITBUCKET;
+    return exists $ENV{BITRISE_PULL_REQUEST} ? 1 : 0 if BITRISE;
+    return exists $ENV{BUDDY_EXECUTION_PULL_REQUEST_ID} ? 1 : 0 if BUDDY;
+    return exists $ENV{BUILDKITE_PULL_REQUEST} && $ENV{BUILDKITE_PULL_REQUEST} ne 'false' ? 1 : 0 if BUILDKITE;
+    return exists $ENV{CIRCLE_PULL_REQUEST} ? 1 : 0 if CIRCLE;
+    return exists $ENV{CIRRUS_PR} ? 1 : 0 if CIRRUS;
+    return exists $ENV{DRONE_BUILD_EVENT} && $ENV{DRONE_BUILD_EVENT} eq 'pull_request' ? 1 : 0 if DRONE;
+    return exists $ENV{GITHUB_EVENT_NAME} && $ENV{GITHUB_EVENT_NAME} eq 'pull_request' ? 1 : 0 if GITHUB_ACTIONS;
+    return exists $ENV{ghprbPullId} || exists $ENV{CHANGE_ID} ? 1 : 0 if JENKINS;
+    return exists $ENV{PULL_REQUEST} && $ENV{PULL_REQUEST} ne 'false' ? 1 : 0 if NETLIFY;
+    return exists $ENV{NEVERCODE_PULL_REQUEST} && $ENV{NEVERCODE_PULL_REQUEST} ne 'false' ? 1 : 0 if NEVERCODE;
+    return exists $ENV{SAIL_PULL_REQUEST_NUMBER} ? 1 : 0 if SAIL;
+    return exists $ENV{PULL_REQUEST_NUMBER} ? 1 : 0 if SEMAPHORE;
+    return exists $ENV{IS_PULL_REQUEST} && $ENV{IS_PULL_REQUEST} eq 'true' ? 1 : 0 if SHIPPABLE;
+    return exists $ENV{TDDIUM_PR_ID} ? 1 : 0 if SOLANO;
+    return exists $ENV{TRAVIS_PULL_REQUEST} && $ENV{TRAVIS_PULL_REQUEST} ne 'false' ? 1 : 0 if TRAVIS;
+    return undef;
 }
 
 1;
@@ -206,14 +202,14 @@ __END__
 
 =head1 NAME
 
-CI - Get details about the current Continuous Integration environment
+CI - Get details about the current CI environment
 
 =head1 SYNOPSIS
 
-  use CI;
   use Test::More;
+  use CI qw(is_ci);
 
-  plan skip_all => 'This test is only for CI' if !CI::is_ci;
+  plan skip_all => 'only in CI' if !is_ci;
 
   ...
 
@@ -221,8 +217,68 @@ CI - Get details about the current Continuous Integration environment
 
 =head1 DESCRIPTION
 
-CI gets details about the current Continuous Integration environment.
-This is a Perl port of L<https://github.com/watson/ci-info>.
+This module provides details about the current CI environment.
+
+=head1 FUNCTIONS
+
+Note that all functions are not exported by default. You can optionally export some functions by, for example, C<< use CI qw(is_ci); >>.
+
+=head2 name
+
+Returns a string containing name of the CI server the code is running on. If CI server is not detected, it returns C<undef>.
+
+=head2 is_ci
+
+Returns C<1/0>. Will be C<1> if the code is running on a CI server, otherwise C<0>.
+Some CI servers not listed here might still trigger the C<is_ci> to be set to C<1>
+if they use certain vendor neutral environment variables.
+In those cases C<name> will be C<undef> and no VENDOR-CONSTANT will be set to C<1>.
+
+=head2 is_pr
+
+Returns C<1/0/undef> if PR detection is supported for the current CI server.
+Will be true if a PR is being tested, otherwise false. If PR detection is not supported for the current CI server, the value will be C<undef>.
+
+=head2 VENDOR-CONSTANT
+
+Returns C<1/0> that represents vendor.
+Will be C<1> if the code is determined to run on the given CI server, otherwise C<0>.
+
+Examples of vendor constants are C<TRAVIS> or C<APPVEYOR>. For a complete list, see the support table below.
+
+=head1 SUPPORTED CI TABLE
+
+  Name                  Constant        is_pr
+  --------------------- --------------- -------------
+  AWS CodeBuild         CODEBUILD       Not supported
+  AppVeyor              APPVEYOR        Supported
+  Azure Pipelines       AZURE_PIPELINES Supported
+  Bamboo by Atlassian   BAMBOO          Not supported
+  Bitbucket Pipelines   BITBUCKET       Supported
+  Bitrise               BITRISE         Supported
+  Buddy                 BUDDY           Supported
+  Buildkite             BUILDKITE       Supported
+  CircleCI              CIRCLE          Supported
+  Cirrus CI             CIRRUS          Supported
+  Codeship              CODESHIP        Not supported
+  Drone                 DRONE           Supported
+  dsari                 DSARI           Not supported
+  GitHub Actions        GITHUB_ACTIONS  Supported
+  GitLab CI             GITLAB          Not supported
+  GoCD                  GOCD            Not supported
+  Hudson                HUDSON          Not supported
+  Jenkins CI            JENKINS         Supported
+  Magnum CI             MAGNUM          Not supported
+  Netlify CI            NETLIFY         Supported
+  Nevercode             NEVERCODE       Supported
+  Sail CI               SAIL            Supported
+  Semaphore             SEMAPHORE       Supported
+  Shippable             SHIPPABLE       Supported
+  Solano CI             SOLANO          Supported
+  Strider CD            STRIDER         Not supported
+  TaskCluster           TASKCLUSTER     Not supported
+  TeamCity by JetBrains TEAMCITY        Not supported
+  Travis CI             TRAVIS          Supported
 
 =head1 AUTHOR
 

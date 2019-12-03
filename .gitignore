@@ -19,3 +19,4 @@ MYMETA.*
 *~
 lib/**/*.c
 /temp
+/maint/vendors.json

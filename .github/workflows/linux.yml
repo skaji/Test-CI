@@ -31,4 +31,4 @@ jobs:
       - name: Install Dependencies
         run: curl -fsSL --compressed https://git.io/cpm | perl - install -g --with-configure --with-develop --with-recommends
       - name: Run Tests
-        run: prove -l t
+        run: prove -l t xt

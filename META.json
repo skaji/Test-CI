@@ -1,5 +1,5 @@
 {
-   "abstract" : "Get details about the current Continuous Integration environment",
+   "abstract" : "Get details about the current CI environment",
    "author" : [
       "Shoichi Kaji <skaji@cpan.org>"
    ],

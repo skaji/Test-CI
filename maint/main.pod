@@ -2,15 +2,83 @@
 
 =head1 NAME
 
-CI - Blah blah blah
+CI - Get details about the current CI environment
 
 =head1 SYNOPSIS
 
-  use CI;
+  use Test::More;
+  use CI qw(is_ci);
+
+  plan skip_all => 'only in CI' if !is_ci;
+
+  ...
+
+  done_testing;
 
 =head1 DESCRIPTION
 
-CI is
+This module provides details about the current CI environment.
+
+=head1 FUNCTIONS
+
+Note that all functions are not exported by default. You can optionally export some functions by, for example, C<< use CI qw(is_ci); >>.
+
+=head2 name
+
+Returns a string containing name of the CI server the code is running on. If CI server is not detected, it returns C<undef>.
+
+=head2 is_ci
+
+Returns C<1/0>. Will be C<1> if the code is running on a CI server, otherwise C<0>.
+Some CI servers not listed here might still trigger the C<is_ci> to be set to C<1>
+if they use certain vendor neutral environment variables.
+In those cases C<name> will be C<undef> and no VENDOR-CONSTANT will be set to C<1>.
+
+=head2 is_pr
+
+Returns C<1/0/undef> if PR detection is supported for the current CI server.
+Will be true if a PR is being tested, otherwise false. If PR detection is not supported for the current CI server, the value will be C<undef>.
+
+=head2 VENDOR-CONSTANT
+
+Returns C<1/0> that represents vendor.
+Will be C<1> if the code is determined to run on the given CI server, otherwise C<0>.
+
+Examples of vendor constants are C<TRAVIS> or C<APPVEYOR>. For a complete list, see the support table below.
+
+=head1 SUPPORTED CI TABLE
+
+  Name                  Constant        is_pr
+  --------------------- --------------- -------------
+  AWS CodeBuild         CODEBUILD       Not supported
+  AppVeyor              APPVEYOR        Supported
+  Azure Pipelines       AZURE_PIPELINES Supported
+  Bamboo by Atlassian   BAMBOO          Not supported
+  Bitbucket Pipelines   BITBUCKET       Supported
+  Bitrise               BITRISE         Supported
+  Buddy                 BUDDY           Supported
+  Buildkite             BUILDKITE       Supported
+  CircleCI              CIRCLE          Supported
+  Cirrus CI             CIRRUS          Supported
+  Codeship              CODESHIP        Not supported
+  Drone                 DRONE           Supported
+  dsari                 DSARI           Not supported
+  GitHub Actions        GITHUB_ACTIONS  Supported
+  GitLab CI             GITLAB          Not supported
+  GoCD                  GOCD            Not supported
+  Hudson                HUDSON          Not supported
+  Jenkins CI            JENKINS         Supported
+  Magnum CI             MAGNUM          Not supported
+  Netlify CI            NETLIFY         Supported
+  Nevercode             NEVERCODE       Supported
+  Sail CI               SAIL            Supported
+  Semaphore             SEMAPHORE       Supported
+  Shippable             SHIPPABLE       Supported
+  Solano CI             SOLANO          Supported
+  Strider CD            STRIDER         Not supported
+  TaskCluster           TASKCLUSTER     Not supported
+  TeamCity by JetBrains TEAMCITY        Not supported
+  Travis CI             TRAVIS          Supported
 
 =head1 AUTHOR
 
@@ -20,7 +88,6 @@ Shoichi Kaji <skaji@cpan.org>
 
 Copyright 2019 Shoichi Kaji <skaji@cpan.org>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+The MIT License (MIT)
 
 =cut
