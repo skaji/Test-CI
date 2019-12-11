@@ -1,13 +1,13 @@
-[![Actions Status](https://github.com/skaji/CI/workflows/linux/badge.svg)](https://github.com/skaji/CI/actions)
+[![Actions Status](https://github.com/skaji/Test-CI/workflows/linux/badge.svg)](https://github.com/skaji/Test-CI/actions)
 
 # NAME
 
-CI - Get details about the current CI environment
+Test::CI - Get details about the current CI environment
 
 # SYNOPSIS
 
     use Test::More;
-    use CI qw(is_ci);
+    use Test::CI qw(is_ci);
 
     plan skip_all => 'only in CI' if !is_ci;
 
@@ -22,7 +22,7 @@ This is a perl port of [https://github.com/watson/ci-info](https://github.com/wa
 
 # FUNCTIONS
 
-Note that all functions are not exported by default. You can optionally export some functions by, for example, `use CI qw(is_ci);`.
+Note that all functions are not exported by default. You can export functions by, for example, `use Test::CI qw(is_ci);`.
 
 ## name
 
@@ -30,19 +30,26 @@ Returns a string containing name of the CI server the code is running on. If CI 
 
 ## is\_ci
 
-Returns `1/0`. Will be `1` if the code is running on a CI server, otherwise `0`.
+Returns `1` or `0`. Will be `1` if the code is running on a CI server, otherwise `0`.
 Some CI servers not listed here might still trigger the `is_ci` to be set to `1`
 if they use certain vendor neutral environment variables.
 In those cases `name` will be `undef` and no VENDOR-CONSTANT will be set to `1`.
 
 ## is\_pr
 
-Returns `1/0/undef` if PR detection is supported for the current CI server.
-Will be true if a PR is being tested, otherwise false. If PR detection is not supported for the current CI server, the value will be `undef`.
+Returns `1`, `0`, or `undef`.
+
+- If PR detection is supported for the current CI server
+
+    Will be `1` if a PR is being tested, otherwise `0`.
+
+- If PR detection is not supported for the current CI server
+
+    The value will be `undef`.
 
 ## VENDOR-CONSTANT
 
-Returns `1/0`.
+Returns `1` or `0`.
 Will be `1` if the code is determined to run on the given CI server, otherwise `0`.
 
 Examples of vendor constants are `TRAVIS` or `APPVEYOR`. For a complete list, see the support table below.

@@ -2,12 +2,12 @@
 
 =head1 NAME
 
-CI - Get details about the current CI environment
+Test::CI - Get details about the current CI environment
 
 =head1 SYNOPSIS
 
   use Test::More;
-  use CI qw(is_ci);
+  use Test::CI qw(is_ci);
 
   plan skip_all => 'only in CI' if !is_ci;
 
@@ -22,7 +22,7 @@ This is a perl port of L<https://github.com/watson/ci-info>.
 
 =head1 FUNCTIONS
 
-Note that all functions are not exported by default. You can optionally export some functions by, for example, C<< use CI qw(is_ci); >>.
+Note that all functions are not exported by default. You can export functions by, for example, C<< use Test::CI qw(is_ci); >>.
 
 =head2 name
 
@@ -30,19 +30,30 @@ Returns a string containing name of the CI server the code is running on. If CI 
 
 =head2 is_ci
 
-Returns C<1/0>. Will be C<1> if the code is running on a CI server, otherwise C<0>.
+Returns C<1> or C<0>. Will be C<1> if the code is running on a CI server, otherwise C<0>.
 Some CI servers not listed here might still trigger the C<is_ci> to be set to C<1>
 if they use certain vendor neutral environment variables.
 In those cases C<name> will be C<undef> and no VENDOR-CONSTANT will be set to C<1>.
 
 =head2 is_pr
 
-Returns C<1/0/undef> if PR detection is supported for the current CI server.
-Will be true if a PR is being tested, otherwise false. If PR detection is not supported for the current CI server, the value will be C<undef>.
+Returns C<1>, C<0>, or C<undef>.
+
+=over 4
+
+=item If PR detection is supported for the current CI server
+
+Will be C<1> if a PR is being tested, otherwise C<0>.
+
+=item If PR detection is not supported for the current CI server
+
+The value will be C<undef>.
+
+=back
 
 =head2 VENDOR-CONSTANT
 
-Returns C<1/0>.
+Returns C<1> or C<0>.
 Will be C<1> if the code is determined to run on the given CI server, otherwise C<0>.
 
 Examples of vendor constants are C<TRAVIS> or C<APPVEYOR>. For a complete list, see the support table below.

@@ -5,7 +5,7 @@ use Test::More;
 sub run {
     my ($env, $code) = @_;
     local %ENV = (%ENV, %$env);
-    0 == system $^X, "-Ilib", "-MCI=:constant,name,is_pr,is_ci", "-we", "exit( ($code) ? 0 : 1)";
+    0 == system $^X, "-Ilib", "-MTest::CI=:constant,name,is_pr,is_ci", "-we", "exit( ($code) ? 0 : 1)";
 }
 
 my @del = (qw(CI CONTINUOUS_INTEGRATION RUN_ID), grep { /TRAVIS/ || /GITHUB/ } keys %ENV);

@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : 2
    },
-   "name" : "CI",
+   "name" : "Test-CI",
    "no_index" : {
       "directory" : [
          "eg",
@@ -43,21 +43,21 @@
       }
    },
    "provides" : {
-      "CI" : {
-         "file" : "lib/CI.pm",
+      "Test::CI" : {
+         "file" : "lib/Test/CI.pm",
          "version" : "0.001"
       }
    },
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/skaji/CI/issues"
+         "web" : "https://github.com/skaji/Test-CI/issues"
       },
-      "homepage" : "https://github.com/skaji/CI",
+      "homepage" : "https://github.com/skaji/Test-CI",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/skaji/CI.git",
-         "web" : "https://github.com/skaji/CI"
+         "url" : "https://github.com/skaji/Test-CI.git",
+         "web" : "https://github.com/skaji/Test-CI"
       }
    },
    "version" : "0.001",
